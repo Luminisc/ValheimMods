@@ -8,6 +8,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <GamePath><!-- Set GamePath manually --></GamePath>
     <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    <ArchiveOutputPath>$(SolutionDir)\_output_</ArchiveOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -52,7 +53,7 @@
   <PropertyGroup>
     <BepInExPath>$(GamePath)\BepInEx</BepInExPath>
     <ManagedDataPath>$(GamePath)\valheim_Data\Managed</ManagedDataPath>
-    <UnityPath>$(GamePath)\unstripped_corlib</UnityPath>
+    <UnityPath>$(ManagedDataPath)</UnityPath>
   </PropertyGroup>
   
   <!-- Set start action -->
@@ -94,9 +95,9 @@
       <HintPath>$(ManagedDataPath)\assembly_guiutils.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ui_lib">
+    <Reference Include="gui_framework">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ManagedDataPath)\ui_lib.dll</HintPath>
+      <HintPath>$(ManagedDataPath)\gui_framework.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="assembly_postprocessing">
@@ -104,9 +105,9 @@
       <HintPath>$(ManagedDataPath)\assembly_postprocessing.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="assembly_steamworks">
+    <Reference Include="com.rlabrecque.steamworks.net">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ManagedDataPath)\assembly_steamworks.dll</HintPath>
+      <HintPath>$(ManagedDataPath)\com.rlabrecque.steamworks.net.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="assembly_sunshafts">
@@ -223,9 +224,9 @@
       <HintPath>$(UnityPath)\UnityEngine.TerrainModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.TextCoreModule">
+    <Reference Include="UnityEngine.TextCoreTextEngineModule">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(UnityPath)\UnityEngine.TextCoreModule.dll</HintPath>
+      <HintPath>$(UnityPath)\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
@@ -258,6 +259,11 @@
       <HintPath>$(UnityPath)\UnityEngine.AssetBundleModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.InputSystem">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ManagedDataPath)\Unity.InputSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
 
   <!-- Copy to plugins folder and zip -->
@@ -268,7 +274,7 @@
     <Copy SourceFiles="@(AllFiles)" DestinationFolder="$(GamePath)\BepInEx\plugins\%(RecursiveDir)"></Copy>
     <Delete Files="$(ProjectDir)\bin\$(TargetName).zip" />
     <Copy SourceFiles="@(AllFiles)" DestinationFolder="$(TargetDir)..\Release\%(RecursiveDir)"></Copy>
-    <ZipDirectory SourceDirectory="$(TargetDir)..\Release" DestinationFile="$(ProjectDir)\bin\$(TargetName).zip" />
+    <ZipDirectory SourceDirectory="$(TargetDir)..\Release" DestinationFile="$(ArchiveOutputPath)\$(TargetName).zip" Overwrite="true"/>
     <RemoveDir Directories="$(TargetDir)..\Release" />
   </Target>
 </Project>
